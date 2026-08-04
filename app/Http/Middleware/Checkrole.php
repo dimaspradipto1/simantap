@@ -14,13 +14,26 @@ class Checkrole
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (Auth::user()->role == 'admin' ||
-            Auth::user()->role == 'petugas' ||
-            Auth::user()->role == 'petugas') {
-            return $next($request);
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
-        return $next($request);
+
+        $user = Auth::user();
+
+        // Check if user role matches allowed roles
+        if (!empty($roles)) {
+            if (in_array($user->role, $roles)) {
+                return $next($request);
+            }
+        } else {
+            // Default check for admin and petugas
+            if ($user->role === 'admin' || $user->role === 'petugas') {
+                return $next($request);
+            }
+        }
+
+        abort(403, 'Anda tidak memiliki hak akses ke halaman ini.');
     }
 }
