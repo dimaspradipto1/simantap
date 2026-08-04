@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
 
 // Auth Routes
 Route::controller(AuthController::class)->group(function () {
@@ -12,8 +14,6 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 // Protected Dashboard Route with Role Middleware
-Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('layouts.dashboard.template');
-    })->name('dashboard');
+Route::middleware(['auth', 'checkrole'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
