@@ -145,8 +145,8 @@
             </div>
             @endif
 
-            <div class="card">
-                <div class="card-body pt-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body pt-4 p-md-4">
 
                     <!-- Step Header Wizard -->
                     <div class="wizard-steps">
@@ -182,7 +182,7 @@
                     <!-- STEP 1: PILIH SUMBER DATA -->
                     <div class="mt-4">
                         <p class="text-secondary mb-4">
-                            Unggah berkas hasil ekspor Excel dari <strong>land.bpbatam.go.id</strong>, atau gunakan simulasi batch mingguan yang sudah tersedia untuk mendemonstrasikan alur impor.
+                            Unggah berkas hasil ekspor Excel dari <strong>land.bpbatam.go.id</strong>, atau gunakan simulasi batch mingguan yang sudah tersedia untuk mendemonstrasikan alur impor 14 kolom.
                         </p>
 
                         <form action="{{ route('import-data.preview') }}" method="POST" enctype="multipart/form-data" id="form-upload-step1">
@@ -190,18 +190,18 @@
 
                             <!-- Dropzone File Upload -->
                             <div class="dropzone-box mb-4" onclick="document.getElementById('file-input').click()">
-                                <i class="bi bi-upload fs-1 text-secondary mb-2 d-block"></i>
-                                <h6 class="fw-bold mb-1">Seret berkas ke sini, atau klik untuk memilih</h6>
-                                <p class="text-muted small mb-0">Format .xlsx — struktur 14 kolom sesuai ekspor land.bpbatam</p>
+                                <i class="bi bi-file-earmark-excel fs-1 text-success mb-2 d-block"></i>
+                                <h6 class="fw-bold mb-1">Seret berkas Excel (.xlsx) ke sini, atau klik untuk memilih</h6>
+                                <p class="text-muted small mb-0">Struktur 14 kolom: No, No Registrasi, Surat Permohonan, Jenis Permohonan, Nama Pemohon, Pembeli, Status Proses, Tgl Surat, Nomor PL, No SPJ/PPT, No SKEP/KPT, No IPH, No Rekom, Alasan Pending</p>
                                 <input type="file" name="file" id="file-input" class="d-none" accept=".xlsx,.xls,.csv" onchange="document.getElementById('form-upload-step1').submit()">
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button type="submit" name="use_simulation" value="1" class="btn btn-outline-primary btn-sm">
-                                    <i class="bi bi-play-circle me-1"></i> Gunakan Simulasi Batch Mingguan (Demo Data)
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <button type="submit" name="use_simulation" value="1" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                    <i class="bi bi-play-circle me-1"></i> Gunakan Simulasi Batch Excel (Demo Data 14 Kolom)
                                 </button>
 
-                                <button type="submit" class="btn btn-dark-navy">
+                                <button type="submit" class="btn btn-dark-navy rounded-pill">
                                     Lanjutkan ke pratinjau &rarr;
                                 </button>
                             </div>
@@ -221,7 +221,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="summary-card success-border">
-                                    <span class="text-muted small fw-semibold">Data baru</span>
+                                    <span class="text-muted small fw-semibold">Data baru siap impor</span>
                                     <div class="number text-success">{{ $newDataCount }}</div>
                                 </div>
                             </div>
@@ -233,33 +233,49 @@
                             </div>
                         </div>
 
-                        <!-- Table Preview -->
-                        <div class="table-responsive mb-4">
-                            <table class="table table-hover align-middle border-top">
-                                <thead class="table-light">
-                                    <tr class="text-uppercase small text-muted">
+                        <!-- Table Preview matching 14 Excel columns format -->
+                        <div class="table-responsive mb-4" style="max-height: 450px; overflow-y: auto;">
+                            <table class="table table-sm table-hover align-middle border-top text-nowrap" style="font-size: 0.825rem;">
+                                <thead class="table-dark sticky-top">
+                                    <tr class="text-uppercase" style="font-size: 0.75rem;">
                                         <th>NO. REGISTRASI</th>
-                                        <th>PEMOHON</th>
-                                        <th>JENIS</th>
-                                        <th class="text-center">STATUS</th>
+                                        <th>SURAT PERMOHONAN</th>
+                                        <th>JENIS PERMOHONAN</th>
+                                        <th>NAMA PEMOHON</th>
+                                        <th>PEMBELI</th>
+                                        <th class="text-center">STATUS PROSES</th>
                                         <th class="text-center">TGL SURAT</th>
-                                        <th class="text-center">VALIDASI</th>
+                                        <th>NOMOR PL</th>
+                                        <th>NO SPJ/PPT</th>
+                                        <th>NO SKEP/KPT</th>
+                                        <th>NO IPH</th>
+                                        <th>NO REKOM</th>
+                                        <th>ALASAN PENDING</th>
+                                        <th class="text-center">STATUS VALIDASI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($previewItems as $item)
                                     <tr>
-                                        <td class="fw-bold">{{ $item['no_registrasi'] }}</td>
-                                        <td>{{ $item['pemohon'] }}</td>
+                                        <td class="fw-bold text-dark">{{ $item['no_registrasi'] }}</td>
+                                        <td>{{ $item['surat_permohonan'] ?? '-' }}</td>
                                         <td>{{ $item['jenis'] }}</td>
+                                        <td class="fw-semibold">{{ $item['pemohon'] }}</td>
+                                        <td>{{ $item['pembeli'] ?? '-' }}</td>
                                         <td class="text-center">
                                             @if(strtolower($item['status']) == 'selesai')
-                                                <span class="badge bg-success-light text-success px-2 py-1">Selesai</span>
+                                                <span class="badge bg-success-subtle text-success px-2 py-1">Selesai</span>
                                             @else
-                                                <span class="badge bg-primary-light text-primary px-2 py-1">{{ $item['status'] }}</span>
+                                                <span class="badge bg-primary-subtle text-primary px-2 py-1">{{ $item['status'] }}</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">{{ \Carbon\Carbon::parse($item['tgl_surat'])->translatedFormat('d M Y') }}</td>
+                                        <td class="text-center">{{ \Carbon\Carbon::parse($item['tgl_surat'])->translatedFormat('d/m/Y') }}</td>
+                                        <td>{{ $item['nomor_pl'] ?? '-' }}</td>
+                                        <td>{{ $item['no_spj_ppt'] ?? '-' }}</td>
+                                        <td>{{ $item['no_skep_kpt'] ?? '-' }}</td>
+                                        <td>{{ $item['no_iph'] ?? '-' }}</td>
+                                        <td>{{ $item['no_rekom'] ?? '-' }}</td>
+                                        <td>{{ $item['alasan_pending'] ?? '-' }}</td>
                                         <td class="text-center">
                                             @if($item['status_validasi'] == 'Siap diimpor')
                                                 <span class="badge-siap">Siap diimpor</span>
@@ -275,13 +291,13 @@
 
                         <!-- Action Bar Step 2 -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{ route('import-data.create') }}" class="btn btn-outline-secondary px-4">
+                            <a href="{{ route('import-data.create') }}" class="btn btn-outline-secondary px-4 rounded-pill">
                                 &larr; Kembali
                             </a>
 
                             <form action="{{ route('import-data.confirm') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-dark-navy">
+                                <button type="submit" class="btn btn-dark-navy rounded-pill">
                                     Lanjutkan ke konfirmasi &rarr;
                                 </button>
                             </form>
@@ -295,19 +311,19 @@
                             <i class="bi bi-check2-square text-success fs-1"></i>
                         </div>
 
-                        <h3 class="fw-bold mb-2">Siap menyimpan {{ $newDataCount }} permohonan baru</h3>
+                        <h3 class="fw-bold mb-2">Siap menyimpan {{ $newDataCount }} permohonan baru dari Excel</h3>
                         <p class="text-secondary col-md-8 mx-auto mb-4">
-                            Data akan ditambahkan ke Data Permohonan dengan status verifikasi <strong>Belum Diverifikasi</strong>, lalu otomatis masuk ke antrean petugas.
+                            Seluruh data hasil impor 14 kolom akan langsung tersimpan di <strong>Data Permohonan</strong> dengan status verifikasi <strong>Belum Diverifikasi / Menunggu</strong>.
                         </p>
 
                         <div class="d-flex justify-content-center gap-3">
-                            <a href="{{ route('import-data.create') }}" class="btn btn-outline-secondary px-4 py-2">
+                            <a href="{{ route('import-data.create') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
                                 &larr; Kembali
                             </a>
 
                             <form action="{{ route('import-data.store') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-gold px-4 py-2">
+                                <button type="submit" class="btn btn-gold px-4 py-2 rounded-pill fw-bold">
                                     Simpan {{ $newDataCount }} data ke sistem
                                 </button>
                             </form>

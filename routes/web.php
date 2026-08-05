@@ -3,7 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportDataController;
+use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,6 +21,12 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // Verifikasi Checklist Routes
+    Route::resource('verifikasi', VerifikasiController::class);
+
+    // Permohonan Routes
+    Route::resource('permohonan', PermohonanController::class);
+
     // User Management Routes
     Route::put('/users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
     Route::resource('users', UserController::class);
