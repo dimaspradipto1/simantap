@@ -49,4 +49,12 @@ class User extends Authenticatable
             'is_active' => 'boolean',
         ];
     }
+
+    /**
+     * Permohonan assigned to this user
+     */
+    public function permohonans()
+    {
+        return $this->hasMany(Permohonan::class, 'assigned_to');
+    }
 }

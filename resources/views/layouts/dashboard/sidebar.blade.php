@@ -15,25 +15,30 @@
           <i class="bi bi-menu-button-wide"></i><span>Manajemen Data</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse {{ request()->routeIs('permohonan.*') || request()->routeIs('import-data.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          @if(in_array(auth()->user()->role, ['admin', 'petugas']))
           <li>
             <a href="{{ route('import-data.create') }}" class="{{ request()->routeIs('import-data.create') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Import Data</span>
             </a>
           </li>
+          @endif
           <li>
             <a href="{{ route('permohonan.index') }}" class="{{ request()->routeIs('permohonan.*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Data Permohonan</span>
             </a>
           </li>
          
+          @if(in_array(auth()->user()->role, ['admin', 'petugas']))
           <li>
             <a href="{{ route('import-data.index') }}" class="{{ request()->routeIs('import-data.index') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Riwayat Import</span>
             </a>
           </li>
+          @endif
         </ul>
       </li><!-- End Components Nav -->
 
+      @if(in_array(auth()->user()->role, ['admin', 'petugas']))
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('verifikasi.*') ? '' : 'collapsed' }}" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Verifikasi</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -46,17 +51,21 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
+      @endif
 
+      @if(in_array(auth()->user()->role, ['admin', 'petugas']))
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('laporan.*') ? '' : 'collapsed' }}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Administrasi</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse {{ request()->routeIs('users.*') || request()->routeIs('laporan.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          @if(auth()->user()->role === 'admin')
           <li>
             <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Manajemen Pengguna</span>
             </a>
           </li>
+          @endif
           <li>
             <a href="{{ route('laporan.index') }}" class="{{ request()->routeIs('laporan.*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Laporan Rekapitulasi</span>
@@ -64,6 +73,7 @@
           </li>
         </ul>
       </li><!-- End Tables Nav -->
+      @endif
 
     </ul>
 
