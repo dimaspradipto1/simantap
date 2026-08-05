@@ -2,11 +2,11 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="{{asset('assets/img/logo.png')}}" alt="">
-        <span class="d-none d-lg-block">SIMANTAP</span>
+      <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center gap-2">
+        <img src="{{ asset('assets/img/logo-bp-batam.webp') }}" alt="Logo BP Batam" style="max-height: 36px;">
+        <span class="d-none d-lg-block fw-bold text-dark fs-5">SIMANTAP</span>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <i class="bi bi-list toggle-sidebar-btn ms-2"></i>
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
@@ -15,7 +15,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name ?? 'User' }}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2 fw-semibold">{{ Auth::user()->name ?? 'User' }}</span>
           </a><!-- End Profile Image Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

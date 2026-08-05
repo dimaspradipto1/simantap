@@ -73,6 +73,13 @@
       max-width: 680px;
     }
 
+    .brand-logo-img {
+      height: 52px;
+      width: auto;
+      margin-bottom: 1.25rem;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
     .brand-badge {
       display: inline-flex;
       align-items: center;
@@ -156,21 +163,14 @@
     .app-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 2rem;
     }
 
-    .app-logo-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0b132a;
-      font-size: 1.35rem;
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    .card-logo-img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
     }
 
     .app-brand-name {
@@ -185,7 +185,7 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       font-weight: 500;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .form-title {
@@ -377,6 +377,10 @@
       <div class="col-lg-7 col-xl-7 hero-section d-flex align-items-center justify-content-center p-4 p-md-5">
         <div class="hero-content">
           
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img src="{{ asset('assets/img/logo-bp-batam.webp') }}" alt="Logo BP Batam" class="brand-logo-img">
+          </div>
+
           <div class="brand-badge">
             <span class="dot"></span>
             BADAN PENGUSAHAAN BATAM
@@ -411,9 +415,7 @@
           
           <!-- App Header -->
           <div class="app-brand">
-            <div class="app-logo-icon">
-              <i class="bi bi-file-earmark-text-fill"></i>
-            </div>
+            <img src="{{ asset('assets/img/logo-bp-batam.webp') }}" alt="Logo BP Batam" class="card-logo-img">
             <div>
               <div class="app-brand-name">SIMANTAP</div>
               <div class="app-brand-sub">Sistem Manajemen Tanda Terima Pertanahan</div>
