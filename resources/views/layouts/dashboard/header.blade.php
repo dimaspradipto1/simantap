@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center gap-2">
         <img src="{{ asset('assets/img/logo-bp-batam.webp') }}" alt="Logo BP Batam" style="max-height: 36px;">
-        <span class="d-none d-lg-block fw-bold text-dark fs-5">SIMANTAP</span>
+        {{-- <span class="d-none d-lg-block fw-bold text-dark fs-5">SIMANTAP</span> --}}
       </a>
       <i class="bi bi-list toggle-sidebar-btn ms-2"></i>
     </div><!-- End Logo -->
