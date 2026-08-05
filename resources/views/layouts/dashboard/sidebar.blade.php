@@ -11,22 +11,22 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {{ request()->routeIs('import-data.*') ? '' : 'collapsed' }}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Manajemen Data</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="components-nav" class="nav-content collapse {{ request()->routeIs('import-data.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
+            <a href="{{ route('import-data.create') }}" class="{{ request()->routeIs('import-data.create') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Import Data</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="{{ route('import-data.index') }}" class="{{ request()->routeIs('import-data.index') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Data Permohonan</span>
             </a>
           </li>
           <li>
-            <a href="components-badges.html">
+            <a href="{{ route('import-data.index') }}">
               <i class="bi bi-circle"></i><span>Riwayat Import</span>
             </a>
           </li>
@@ -47,18 +47,18 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Adminitrasi</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link {{ request()->routeIs('users.*') ? '' : 'collapsed' }}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Administrasi</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="tables-nav" class="nav-content collapse {{ request()->routeIs('users.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
-              <i class="bi bi-circle"></i><span>Manajeman Pengguna</span>
+            <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Manajemen Pengguna</span>
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>laporan</span>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>Laporan</span>
             </a>
           </li>
         </ul>
