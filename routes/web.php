@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportDataController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifikasiController;
@@ -21,6 +22,9 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // Laporan Rekapitulasi Route
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+
     // Verifikasi Checklist Routes
     Route::resource('verifikasi', VerifikasiController::class);
 
@@ -32,6 +36,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('users', UserController::class);
 
     // Import Data Routes
+    Route::get('/import-data/download-template', [ImportDataController::class, 'downloadTemplate'])->name('import-data.download-template');
     Route::get('/import-data', [ImportDataController::class, 'index'])->name('import-data.index');
     Route::get('/import-data/create', [ImportDataController::class, 'create'])->name('import-data.create');
     Route::post('/import-data/preview', [ImportDataController::class, 'preview'])->name('import-data.preview');

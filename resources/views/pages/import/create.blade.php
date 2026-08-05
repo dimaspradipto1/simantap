@@ -182,7 +182,7 @@
                     <!-- STEP 1: PILIH SUMBER DATA -->
                     <div class="mt-4">
                         <p class="text-secondary mb-4">
-                            Unggah berkas hasil ekspor Excel dari <strong>land.bpbatam.go.id</strong>, atau gunakan simulasi batch mingguan yang sudah tersedia untuk mendemonstrasikan alur impor 14 kolom.
+                            Unggah berkas hasil ekspor Excel dari <strong>land.bpbatam.go.id</strong> sesuai dengan struktur 14 kolom resmi.
                         </p>
 
                         <form action="{{ route('import-data.preview') }}" method="POST" enctype="multipart/form-data" id="form-upload-step1">
@@ -197,9 +197,9 @@
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                <button type="submit" name="use_simulation" value="1" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                    <i class="bi bi-play-circle me-1"></i> Gunakan Simulasi Batch Excel (Demo Data 14 Kolom)
-                                </button>
+                                <a href="{{ route('import-data.download-template') }}" class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> Unduh Format Template Excel (.xlsx)
+                                </a>
 
                                 <button type="submit" class="btn btn-dark-navy rounded-pill">
                                     Lanjutkan ke pratinjau &rarr;

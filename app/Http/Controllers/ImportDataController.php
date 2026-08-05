@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class ImportDataController extends Controller
 {
@@ -18,6 +21,69 @@ class ImportDataController extends Controller
     public function index(ImportDataDataTable $dataTable)
     {
         return $dataTable->render('pages.import.index');
+    }
+
+    /**
+     * Download sample Excel template (.xlsx) with 14 columns format
+     */
+    public function downloadTemplate()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Template Import Permohonan');
+
+        // Header 14 Columns
+        $headers = [
+            'No',
+            'No Registrasi',
+            'Surat Permohonan',
+            'Jenis Permohonan',
+            'Nama Pemohon',
+            'Pembeli',
+            'Status Proses',
+            'Tgl Surat',
+            'Nomor PL',
+            'No SPJ/PPT',
+            'No SKEP/KPT',
+            'No IPH',
+            'No Rekom',
+            'Alasan/Keterangan Pending'
+        ];
+
+        $sheet->fromArray([$headers], NULL, 'A1');
+
+        // Style Header Row (Dark Navy/Blue background, bold white text)
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0F172A']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+        ];
+        $sheet->getStyle('A1:N1')->applyFromArray($headerStyle);
+
+        // Sample Data Rows (Exact format matching BP Batam land portal)
+        $sampleData = [
+            [1, 'EXT0420269901', 'SP-20260805-001', 'Pelayanan Perpanjangan Hak Atas Tanah', 'MARIA ZAHARA', '-', 'Selesai', '05/08/2026', '226.22.50030064.01.008', '7875/A2.3/L/6/2026', '6376/A2.3/L/6/2026', '-', 'B-4709/KA.A2-A2.3/6/2026', '-'],
+            [2, 'EXT0420269902', 'SP-20260805-002', 'Pelayanan Perpanjangan Hak Atas Tanah', 'DOKWA SIRAIT', '-', 'Selesai', '05/08/2026', '226.98.02050014.02.052', '6974/A2.3/L/6/2026', '6376/A2.3/L/6/2026', '-', 'B-4709/KA.A2-A2.3/6/2026', '-'],
+            [3, 'EXT0420269903', 'SP-20260805-003', 'Pelayanan Perpanjangan Hak Atas Tanah', 'PT METRO KOSMOPOLITAN JAYA', '-', 'Selesai', '05/08/2026', '226.98.02050014.058', '6974/A2.3/L/6/2026', '6373/A2.3/L/6/2026', '-', 'B-4608/KA.A2-A2.3/6/2026', '-'],
+            [4, 'EXT0420269904', 'SP-20260805-004', 'Pelayanan Peralihan Hak Atas Tanah', 'ZAIS ZAKARIA', 'Hengky Wijaya', 'Diproses', '05/08/2026', '226.98.02050014.059', '6975/A2.3/L/6/2026', '6374/A2.3/L/6/2026', '-', 'B-4609/KA.A2-A2.3/6/2026', '-'],
+        ];
+
+        $sheet->fromArray($sampleData, NULL, 'A2');
+
+        // Auto dimension width for columns A to N
+        foreach (range('A', 'N') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $filename = 'Format_Import_Permohonan_BPBatam.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 
     /**
