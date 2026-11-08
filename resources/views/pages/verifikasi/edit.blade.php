@@ -150,7 +150,7 @@
                             <input type="file" name="bukti_tanda_terima" class="form-control" id="bukti_tanda_terima">
                             @if($verifikasi->bukti_tanda_terima)
                             <div class="mt-2 small text-muted">
-                                File saat ini: <a href="{{ asset('storage/' . $verifikasi->bukti_tanda_terima) }}" target="_blank" class="fw-semibold text-primary"><i class="bi bi-file-earmark-check me-1"></i>{{ basename($verifikasi->bukti_tanda_terima) }}</a>
+                                File saat ini: <a href="{{ route('verifikasi.download', $verifikasi->id) }}" target="_blank" class="fw-semibold text-primary"><i class="bi bi-file-earmark-check me-1"></i>{{ basename($verifikasi->bukti_tanda_terima) }}</a>
                             </div>
                             @endif
                         </div>

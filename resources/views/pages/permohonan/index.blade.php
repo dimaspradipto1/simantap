@@ -409,7 +409,7 @@
                             diunggah oleh <span id="detail-uploader-name">Rahmat Ikraldo Busyra</span>
                         </div>
                     </div>
-                    <a id="detail-file-link" href="#" target="_blank" class="ms-auto btn btn-sm btn-light border text-primary rounded-pill px-3">
+                    <a id="detail-file-link" href="#" target="_blank" download class="ms-auto btn btn-sm btn-light border text-primary rounded-pill px-3">
                         <i class="bi bi-download me-1"></i> Unduh
                     </a>
                 </div>

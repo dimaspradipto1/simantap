@@ -74,9 +74,49 @@ class PermohonanController extends Controller
             'data' => $permohonan,
             'checklist_count' => $permohonan->checklist_count,
             'tanggal_surat_formatted' => $tglSuratFormatted,
-            'file_url' => $permohonan->file_tanda_terima ? asset('storage/' . $permohonan->file_tanda_terima) : null,
+            'file_url' => $permohonan->file_tanda_terima ? route('permohonan.download', $permohonan->id) : null,
             'file_basename' => $permohonan->file_tanda_terima ? basename($permohonan->file_tanda_terima) : null,
         ]);
+    }
+
+    /**
+     * Download or view the tanda terima file safely without 403 Forbidden issues.
+     */
+    public function downloadFile(Permohonan $permohonan)
+    {
+        $relativePath = $permohonan->file_tanda_terima;
+
+        if (!$relativePath) {
+            abort(404, 'Data permohonan ini tidak memiliki file lampiran tanda terima.');
+        }
+
+        $possiblePaths = [
+            Storage::disk('public')->path($relativePath),
+            storage_path('app/public/' . $relativePath),
+            storage_path('app/' . $relativePath),
+            public_path('storage/' . $relativePath),
+            public_path($relativePath),
+        ];
+
+        $resolvedPath = null;
+        foreach ($possiblePaths as $path) {
+            if (file_exists($path) && is_file($path)) {
+                $resolvedPath = $path;
+                break;
+            }
+        }
+
+        if (!$resolvedPath) {
+            abort(404, 'File lampiran tanda terima (' . basename($relativePath) . ') tidak ditemukan di server.');
+        }
+
+        $filename = basename($resolvedPath);
+
+        if (request()->has('inline')) {
+            return response()->file($resolvedPath);
+        }
+
+        return response()->download($resolvedPath, $filename);
     }
 
     /**

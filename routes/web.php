@@ -29,7 +29,11 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('verifikasi', VerifikasiController::class);
 
     // Permohonan Routes
+    Route::get('/permohonan/{permohonan}/download', [PermohonanController::class, 'downloadFile'])->name('permohonan.download');
     Route::resource('permohonan', PermohonanController::class);
+
+    // Verifikasi Download Route
+    Route::get('/verifikasi/{verifikasi}/download', [VerifikasiController::class, 'downloadFile'])->name('verifikasi.download');
 
     // User Management Routes
     Route::put('/users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');

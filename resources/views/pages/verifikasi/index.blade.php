@@ -391,7 +391,7 @@
                                 </div>
                                 @if($activeItem->bukti_tanda_terima)
                                 <div class="mt-2 text-success small fw-semibold">
-                                    <i class="bi bi-file-earmark-check me-1"></i> File terunggah: <a href="{{ asset('storage/' . $activeItem->bukti_tanda_terima) }}" target="_blank" class="text-success text-decoration-underline">{{ basename($activeItem->bukti_tanda_terima) }}</a>
+                                    <i class="bi bi-file-earmark-check me-1"></i> File terunggah: <a href="{{ route('verifikasi.download', $activeItem->id) }}" target="_blank" class="text-success text-decoration-underline">{{ basename($activeItem->bukti_tanda_terima) }}</a>
                                 </div>
                                 @endif
                             </div>

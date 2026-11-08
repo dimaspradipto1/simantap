@@ -106,12 +106,54 @@ class VerifikasiController extends Controller
     public function show(Verifikasi $verifikasi)
     {
         $verifikasi->load(['permohonan', 'verifier']);
+        $hasFile = $verifikasi->bukti_tanda_terima || optional($verifikasi->permohonan)->file_tanda_terima;
+
         return response()->json([
             'status' => 'success',
             'data' => $verifikasi,
             'checklist_count' => $verifikasi->checklist_count,
-            'file_url' => $verifikasi->bukti_tanda_terima ? asset('storage/' . $verifikasi->bukti_tanda_terima) : null,
+            'file_url' => $hasFile ? route('verifikasi.download', $verifikasi->id) : null,
         ]);
+    }
+
+    /**
+     * Download or view the bukti tanda terima safely without 403 Forbidden issues.
+     */
+    public function downloadFile(Verifikasi $verifikasi)
+    {
+        $relativePath = $verifikasi->bukti_tanda_terima ?? optional($verifikasi->permohonan)->file_tanda_terima;
+
+        if (!$relativePath) {
+            abort(404, 'Data verifikasi ini tidak memiliki file lampiran bukti tanda terima.');
+        }
+
+        $possiblePaths = [
+            Storage::disk('public')->path($relativePath),
+            storage_path('app/public/' . $relativePath),
+            storage_path('app/' . $relativePath),
+            public_path('storage/' . $relativePath),
+            public_path($relativePath),
+        ];
+
+        $resolvedPath = null;
+        foreach ($possiblePaths as $path) {
+            if (file_exists($path) && is_file($path)) {
+                $resolvedPath = $path;
+                break;
+            }
+        }
+
+        if (!$resolvedPath) {
+            abort(404, 'File bukti tanda terima (' . basename($relativePath) . ') tidak ditemukan di server.');
+        }
+
+        $filename = basename($resolvedPath);
+
+        if (request()->has('inline')) {
+            return response()->file($resolvedPath);
+        }
+
+        return response()->download($resolvedPath, $filename);
     }
 
     /**
