@@ -289,19 +289,19 @@
                         <div class="row g-3 mb-4 p-3 rounded-3 bg-light border">
                             <div class="col-md-3 col-6">
                                 <div class="field-label-sm">NOMOR PL</div>
-                                <div class="field-value-sm">{{ $activeItem->permohonan->nomor_pl ?? '226.97.96040000.B1.002' }}</div>
+                                <div class="field-value-sm">{{ $activeItem->permohonan?->nomor_pl ?? '-' }}</div>
                             </div>
                             <div class="col-md-3 col-6">
                                 <div class="field-label-sm">TANGGAL SURAT</div>
-                                <div class="field-value-sm">{{ $activeItem->permohonan->tanggal_surat ? $activeItem->permohonan->tanggal_surat->format('j M Y') : '5 Agu 2026' }}</div>
+                                <div class="field-value-sm">{{ $activeItem->permohonan?->tanggal_surat ? $activeItem->permohonan->tanggal_surat->format('j M Y') : ($activeItem->created_at ? $activeItem->created_at->format('j M Y') : '-') }}</div>
                             </div>
                             <div class="col-md-3 col-6">
                                 <div class="field-label-sm">NO SPJ/PPT</div>
-                                <div class="field-value-sm">{{ $activeItem->permohonan->no_spj_ppt ?? '7002/A2.3/L/6/2026' }}</div>
+                                <div class="field-value-sm">{{ $activeItem->permohonan?->no_spj_ppt ?? '-' }}</div>
                             </div>
                             <div class="col-md-3 col-6">
                                 <div class="field-label-sm">NO SKEP/KPT</div>
-                                <div class="field-value-sm">{{ $activeItem->permohonan->no_skep_kpt ?? '6302/A2.3/L/6/2026' }}</div>
+                                <div class="field-value-sm">{{ $activeItem->permohonan?->no_skep_kpt ?? '-' }}</div>
                             </div>
                         </div>
 

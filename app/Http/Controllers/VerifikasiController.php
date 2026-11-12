@@ -30,8 +30,15 @@ class VerifikasiController extends Controller
 
         if (!$activeItem && $antreanList->count() > 0) {
             $activeItem = $antreanList->first();
-            if ($activeItem) {
-                $activeItem->load('permohonan');
+        }
+
+        if ($activeItem) {
+            $activeItem->load('permohonan');
+            if (!$activeItem->permohonan && $activeItem->no_registrasi) {
+                $matchedPermohonan = Permohonan::where('no_registrasi', $activeItem->no_registrasi)->first();
+                if ($matchedPermohonan) {
+                    $activeItem->setRelation('permohonan', $matchedPermohonan);
+                }
             }
         }
 
@@ -75,6 +82,13 @@ class VerifikasiController extends Controller
         if ($data['status_verifikasi'] === 'Terverifikasi') {
             $data['verified_by'] = Auth::id();
             $data['verified_at'] = now();
+        }
+
+        if (empty($data['permohonan_id']) && !empty($data['no_registrasi'])) {
+            $matched = Permohonan::where('no_registrasi', $data['no_registrasi'])->first();
+            if ($matched) {
+                $data['permohonan_id'] = $matched->id;
+            }
         }
 
         $verifikasi = Verifikasi::create($data);
